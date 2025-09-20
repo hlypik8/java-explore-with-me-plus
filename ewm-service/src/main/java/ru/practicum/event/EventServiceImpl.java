@@ -1,11 +1,9 @@
-package ru.practicum.event.services;
+package ru.practicum.event;
 
 import jakarta.transaction.Transactional;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -14,26 +12,17 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import ru.practicum.common.exception.ConflictException;
 import ru.practicum.common.exception.NotFoundException;
-import ru.practicum.category.Category;
-import ru.practicum.category.CategoryRepository;
-import ru.practicum.event.Event;
-import ru.practicum.event.EventMapper;
-import ru.practicum.event.EventRepository;
 import ru.practicum.event.dto.EventCreateDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.EventUpdateDto;
-import ru.practicum.event.services.interfaces.PrivateEventService;
-import ru.practicum.location.Location;
-import ru.practicum.location.LocationMapper;
-import ru.practicum.location.LocationRepository;
 import ru.practicum.user.User;
 import ru.practicum.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PrivateEventServiceImpl implements PrivateEventService {
+public class EventServiceImpl implements EventService {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -111,7 +100,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
 
     @Override
     public EventFullDto getEventByUserIdAndEventId(long userId, long eventId) throws NotFoundException,
-            ConflictException {
+                                                                                     ConflictException {
         log.info("Поиск полной информации о событии на уровне сервиса");
 
         User user = userRepository.findById(userId)
@@ -138,7 +127,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
     @Override
     @Transactional
     public EventFullDto updateEvent(long userId, long eventId, EventUpdateDto dto) throws NotFoundException,
-            ConflictException {
+                                                                                          ConflictException {
         log.info("Обновление события на уровне сервиса");
 
         User user = userRepository.findById(userId)
