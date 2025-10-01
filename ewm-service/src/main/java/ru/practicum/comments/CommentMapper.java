@@ -32,11 +32,10 @@ public class CommentMapper {
                 .build();
     }
 
-    public Comment updateFields(Comment comment, CommentCreateOrUpdateDto dto) {
+    public void updateFields(Comment comment, CommentCreateOrUpdateDto dto) {
         log.info("Преобразование модели {} в модель {} для обновления", CommentCreateOrUpdateDto.class, Comment.class);
         if (!(dto.getText() == null || dto.getText().trim().isBlank())) {
             comment.setText(dto.getText());
         }
-        return comment;
     }
 }
